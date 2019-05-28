@@ -1,6 +1,6 @@
 import { window } from 'ssr-window';
 import Utils from '../../../utils/utils';
-import Support from '../../../utils/support';
+// import Support from '../../../utils/support';
 
 export default function () {
   const swiper = this;
@@ -32,7 +32,7 @@ export default function () {
 
   let spaceBetween = params.spaceBetween;
   let slidePosition = -offsetBefore;
-  let prevSlideSize = 0;
+  // let prevSlideSize = 0;
   let index = 0;
   if (typeof swiperSize === 'undefined') {
     return;
@@ -48,16 +48,19 @@ export default function () {
   else slides.css({ marginRight: '', marginBottom: '' });
 
   let slidesNumberEvenToRows;
-  if (params.slidesPerColumn > 1) {
-    if (Math.floor(slidesLength / params.slidesPerColumn) === slidesLength / swiper.params.slidesPerColumn) {
-      slidesNumberEvenToRows = slidesLength;
-    } else {
-      slidesNumberEvenToRows = Math.ceil(slidesLength / params.slidesPerColumn) * params.slidesPerColumn;
-    }
-    if (params.slidesPerView !== 'auto' && params.slidesPerColumnFill === 'row') {
-      slidesNumberEvenToRows = Math.max(slidesNumberEvenToRows, params.slidesPerView * params.slidesPerColumn);
-    }
-  }
+  /**
+   * 先不要考虑一列多个slide(先从最简单的开始)
+   */
+  // if (params.slidesPerColumn > 1) {
+  //   if (Math.floor(slidesLength / params.slidesPerColumn) === slidesLength / swiper.params.slidesPerColumn) {
+  //     slidesNumberEvenToRows = slidesLength;
+  //   } else {
+  //     slidesNumberEvenToRows = Math.ceil(slidesLength / params.slidesPerColumn) * params.slidesPerColumn;
+  //   }
+  //   if (params.slidesPerView !== 'auto' && params.slidesPerColumnFill === 'row') {
+  //     slidesNumberEvenToRows = Math.max(slidesNumberEvenToRows, params.slidesPerView * params.slidesPerColumn);
+  //   }
+  // }
 
   // Calc slides
   let slideSize;
@@ -67,6 +70,9 @@ export default function () {
   for (let i = 0; i < slidesLength; i += 1) {
     slideSize = 0;
     const slide = slides.eq(i);
+    /**
+     * 先不要考虑一列多个slide(先从最简单的开始)
+     */
     if (params.slidesPerColumn > 1) {
       // Set slides order
       let newSlideOrderIndex;
@@ -105,6 +111,9 @@ export default function () {
     }
     if (slide.css('display') === 'none') continue; // eslint-disable-line
 
+    /**
+     * 获取并且设置slide的大小
+     */
     if (params.slidesPerView === 'auto') {
       const slideStyles = window.getComputedStyle(slide[0], null);
       const currentTransform = slide[0].style.transform;
@@ -172,55 +181,67 @@ export default function () {
     slidesSizesGrid.push(slideSize);
 
 
+    /**
+     * 先不去考虑居中对齐
+     */
     if (params.centeredSlides) {
-      slidePosition = slidePosition + (slideSize / 2) + (prevSlideSize / 2) + spaceBetween;
-      if (prevSlideSize === 0 && i !== 0) slidePosition = slidePosition - (swiperSize / 2) - spaceBetween;
-      if (i === 0) slidePosition = slidePosition - (swiperSize / 2) - spaceBetween;
-      if (Math.abs(slidePosition) < 1 / 1000) slidePosition = 0;
-      if (params.roundLengths) slidePosition = Math.floor(slidePosition);
-      if ((index) % params.slidesPerGroup === 0) snapGrid.push(slidePosition);
-      slidesGrid.push(slidePosition);
+      // slidePosition = slidePosition + (slideSize / 2) + (prevSlideSize / 2) + spaceBetween;
+      // if (prevSlideSize === 0 && i !== 0) slidePosition = slidePosition - (swiperSize / 2) - spaceBetween;
+      // if (i === 0) slidePosition = slidePosition - (swiperSize / 2) - spaceBetween;
+      // if (Math.abs(slidePosition) < 1 / 1000) slidePosition = 0;
+      // if (params.roundLengths) slidePosition = Math.floor(slidePosition);
+      // if ((index) % params.slidesPerGroup === 0) snapGrid.push(slidePosition);
+      // slidesGrid.push(slidePosition);
     } else {
+      /**
+       * 计算每个slide的position和每组的slide的位置
+       */
       if (params.roundLengths) slidePosition = Math.floor(slidePosition);
       if ((index) % params.slidesPerGroup === 0) snapGrid.push(slidePosition);
       slidesGrid.push(slidePosition);
       slidePosition = slidePosition + slideSize + spaceBetween;
     }
 
+    /**
+     * 计算virtualSize（这个是不包括最后一个元素的margiright的）
+     */
     swiper.virtualSize += slideSize + spaceBetween;
 
-    prevSlideSize = slideSize;
+    // prevSlideSize = slideSize;
 
     index += 1;
   }
   swiper.virtualSize = Math.max(swiper.virtualSize, swiperSize) + offsetAfter;
   let newSlidesGrid;
 
-  if (
-    rtl && wrongRTL && (params.effect === 'slide' || params.effect === 'coverflow')) {
-    $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
-  }
-  if (!Support.flexbox || params.setWrapperSize) {
-    if (swiper.isHorizontal()) $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
-    else $wrapperEl.css({ height: `${swiper.virtualSize + params.spaceBetween}px` });
-  }
+  // if (
+  //   rtl && wrongRTL && (params.effect === 'slide' || params.effect === 'coverflow')) {
+  //   $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
+  // }
+  // if (!Support.flexbox || params.setWrapperSize) {
+  //   if (swiper.isHorizontal()) $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
+  //   else $wrapperEl.css({ height: `${swiper.virtualSize + params.spaceBetween}px` });
+  // }
 
-  if (params.slidesPerColumn > 1) {
-    swiper.virtualSize = (slideSize + params.spaceBetween) * slidesNumberEvenToRows;
-    swiper.virtualSize = Math.ceil(swiper.virtualSize / params.slidesPerColumn) - params.spaceBetween;
-    if (swiper.isHorizontal()) $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
-    else $wrapperEl.css({ height: `${swiper.virtualSize + params.spaceBetween}px` });
-    if (params.centeredSlides) {
-      newSlidesGrid = [];
-      for (let i = 0; i < snapGrid.length; i += 1) {
-        let slidesGridItem = snapGrid[i];
-        if (params.roundLengths) slidesGridItem = Math.floor(slidesGridItem);
-        if (snapGrid[i] < swiper.virtualSize + snapGrid[0]) newSlidesGrid.push(slidesGridItem);
-      }
-      snapGrid = newSlidesGrid;
-    }
-  }
+  // if (params.slidesPerColumn > 1) {
+  //   swiper.virtualSize = (slideSize + params.spaceBetween) * slidesNumberEvenToRows;
+  //   swiper.virtualSize = Math.ceil(swiper.virtualSize / params.slidesPerColumn) - params.spaceBetween;
+  //   if (swiper.isHorizontal()) $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
+  //   else $wrapperEl.css({ height: `${swiper.virtualSize + params.spaceBetween}px` });
+  //   if (params.centeredSlides) {
+  //     newSlidesGrid = [];
+  //     for (let i = 0; i < snapGrid.length; i += 1) {
+  //       let slidesGridItem = snapGrid[i];
+  //       if (params.roundLengths) slidesGridItem = Math.floor(slidesGridItem);
+  //       if (snapGrid[i] < swiper.virtualSize + snapGrid[0]) newSlidesGrid.push(slidesGridItem);
+  //     }
+  //     snapGrid = newSlidesGrid;
+  //   }
+  // }
 
+  /**
+   * 重新设置snapGrid
+   */
   // Remove last grid elements depending on width
   if (!params.centeredSlides) {
     newSlidesGrid = [];
@@ -238,6 +259,9 @@ export default function () {
   }
   if (snapGrid.length === 0) snapGrid = [0];
 
+  /**
+   * 设置spaceBetween
+   */
   if (params.spaceBetween !== 0) {
     if (swiper.isHorizontal()) {
       if (rtl) slides.css({ marginLeft: `${spaceBetween}px` });
@@ -245,22 +269,22 @@ export default function () {
     } else slides.css({ marginBottom: `${spaceBetween}px` });
   }
 
-  if (params.centerInsufficientSlides) {
-    let allSlidesSize = 0;
-    slidesSizesGrid.forEach((slideSizeValue) => {
-      allSlidesSize += slideSizeValue + (params.spaceBetween ? params.spaceBetween : 0);
-    });
-    allSlidesSize -= params.spaceBetween;
-    if (allSlidesSize < swiperSize) {
-      const allSlidesOffset = (swiperSize - allSlidesSize) / 2;
-      snapGrid.forEach((snap, snapIndex) => {
-        snapGrid[snapIndex] = snap - allSlidesOffset;
-      });
-      slidesGrid.forEach((snap, snapIndex) => {
-        slidesGrid[snapIndex] = snap + allSlidesOffset;
-      });
-    }
-  }
+  // if (params.centerInsufficientSlides) {
+  //   let allSlidesSize = 0;
+  //   slidesSizesGrid.forEach((slideSizeValue) => {
+  //     allSlidesSize += slideSizeValue + (params.spaceBetween ? params.spaceBetween : 0);
+  //   });
+  //   allSlidesSize -= params.spaceBetween;
+  //   if (allSlidesSize < swiperSize) {
+  //     const allSlidesOffset = (swiperSize - allSlidesSize) / 2;
+  //     snapGrid.forEach((snap, snapIndex) => {
+  //       snapGrid[snapIndex] = snap - allSlidesOffset;
+  //     });
+  //     slidesGrid.forEach((snap, snapIndex) => {
+  //       slidesGrid[snapIndex] = snap + allSlidesOffset;
+  //     });
+  //   }
+  // }
 
   Utils.extend(swiper, {
     slides,

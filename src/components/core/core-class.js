@@ -52,8 +52,14 @@ class Swiper extends SwiperClass {
     params = Utils.extend({}, params);
     if (el && !params.el) params.el = el;
 
+    /**
+     * 处理了外面传进来的参数，然后在父类中监听了相关事件
+     */
     super(params);
 
+    /**
+     * 将相关的业务方法动态的挂载到Swiper的原型上
+     */
     Object.keys(prototypes).forEach((prototypeGroup) => {
       Object.keys(prototypes[prototypeGroup]).forEach((protoMethod) => {
         if (!Swiper.prototype[protoMethod]) {
@@ -62,30 +68,36 @@ class Swiper extends SwiperClass {
       });
     });
 
+    /**
+     * 动态的处理各个模块的数据信息
+     */
     // Swiper Instance
     const swiper = this;
     if (typeof swiper.modules === 'undefined') {
       swiper.modules = {};
     }
-    Object.keys(swiper.modules).forEach((moduleName) => {
-      const module = swiper.modules[moduleName];
-      if (module.params) {
-        const moduleParamName = Object.keys(module.params)[0];
-        const moduleParams = module.params[moduleParamName];
-        if (typeof moduleParams !== 'object' || moduleParams === null) return;
-        if (!(moduleParamName in params && 'enabled' in moduleParams)) return;
-        if (params[moduleParamName] === true) {
-          params[moduleParamName] = { enabled: true };
-        }
-        if (
-          typeof params[moduleParamName] === 'object'
-          && !('enabled' in params[moduleParamName])
-        ) {
-          params[moduleParamName].enabled = true;
-        }
-        if (!params[moduleParamName]) params[moduleParamName] = { enabled: false };
-      }
-    });
+    /**
+     * 先可以不用关注这边的值
+     */
+    // Object.keys(swiper.modules).forEach((moduleName) => {
+    //   const module = swiper.modules[moduleName];
+    //   if (module.params) {
+    //     const moduleParamName = Object.keys(module.params)[0];
+    //     const moduleParams = module.params[moduleParamName];
+    //     if (typeof moduleParams !== 'object' || moduleParams === null) return;
+    //     if (!(moduleParamName in params && 'enabled' in moduleParams)) return;
+    //     if (params[moduleParamName] === true) {
+    //       params[moduleParamName] = { enabled: true };
+    //     }
+    //     if (
+    //       typeof params[moduleParamName] === 'object'
+    //       && !('enabled' in params[moduleParamName])
+    //     ) {
+    //       params[moduleParamName].enabled = true;
+    //     }
+    //     if (!params[moduleParamName]) params[moduleParamName] = { enabled: false };
+    //   }
+    // });
 
     // Extend defaults with modules params
     const swiperParams = Utils.extend({}, defaults);
@@ -371,17 +383,17 @@ class Swiper extends SwiperClass {
     swiper.emit('beforeInit');
 
     // Set breakpoint
-    if (swiper.params.breakpoints) {
-      swiper.setBreakpoint();
-    }
+    // if (swiper.params.breakpoints) {
+    //   swiper.setBreakpoint();
+    // }
 
     // Add Classes
     swiper.addClasses();
 
     // Create loop
-    if (swiper.params.loop) {
-      swiper.loopCreate();
-    }
+    // if (swiper.params.loop) {
+    //   swiper.loopCreate();
+    // }
 
     // Update size
     swiper.updateSize();
@@ -389,18 +401,18 @@ class Swiper extends SwiperClass {
     // Update slides
     swiper.updateSlides();
 
-    if (swiper.params.watchOverflow) {
-      swiper.checkOverflow();
-    }
+    // if (swiper.params.watchOverflow) {
+    //   swiper.checkOverflow();
+    // }
 
     // Set Grab Cursor
-    if (swiper.params.grabCursor) {
-      swiper.setGrabCursor();
-    }
+    // if (swiper.params.grabCursor) {
+    //   swiper.setGrabCursor();
+    // }
 
-    if (swiper.params.preloadImages) {
-      swiper.preloadImages();
-    }
+    // if (swiper.params.preloadImages) {
+    //   swiper.preloadImages();
+    // }
 
     // Slide To Initial Slide
     if (swiper.params.loop) {

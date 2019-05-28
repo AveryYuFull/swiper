@@ -15,6 +15,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   let snapIndex = Math.floor(slideIndex / params.slidesPerGroup);
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
 
+  // 这里的事件是只有当整个改变前才会触发，只会在第一次（大概这么认为）
   if ((activeIndex || params.initialSlide || 0) === (previousIndex || 0) && runCallbacks) {
     swiper.emit('beforeSlideChangeStart');
   }
@@ -52,13 +53,13 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   if ((rtl && -translate === swiper.translate) || (!rtl && translate === swiper.translate)) {
     swiper.updateActiveIndex(slideIndex);
     // Update Height
-    if (params.autoHeight) {
-      swiper.updateAutoHeight();
-    }
+    // if (params.autoHeight) {
+    //   swiper.updateAutoHeight();
+    // }
     swiper.updateSlidesClasses();
-    if (params.effect !== 'slide') {
-      swiper.setTranslate(translate);
-    }
+    // if (params.effect !== 'slide') {
+    //   swiper.setTranslate(translate);
+    // }
     if (direction !== 'reset') {
       swiper.transitionStart(runCallbacks, direction);
       swiper.transitionEnd(runCallbacks, direction);

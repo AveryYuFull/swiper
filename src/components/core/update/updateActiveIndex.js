@@ -6,8 +6,12 @@ export default function (newActiveIndex) {
   const {
     slidesGrid, snapGrid, params, activeIndex: previousIndex, realIndex: previousRealIndex, snapIndex: previousSnapIndex,
   } = swiper;
-  let activeIndex = newActiveIndex;
   let snapIndex;
+
+  /**
+   * 获取activeIndex
+   */
+  let activeIndex = newActiveIndex;
   if (typeof activeIndex === 'undefined') {
     for (let i = 0; i < slidesGrid.length; i += 1) {
       if (typeof slidesGrid[i + 1] !== 'undefined') {
@@ -25,12 +29,20 @@ export default function (newActiveIndex) {
       if (activeIndex < 0 || typeof activeIndex === 'undefined') activeIndex = 0;
     }
   }
+
+  /**
+   * snapIndex的获取
+   */
   if (snapGrid.indexOf(translate) >= 0) {
     snapIndex = snapGrid.indexOf(translate);
   } else {
     snapIndex = Math.floor(activeIndex / params.slidesPerGroup);
   }
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
+
+  /**
+   * 如果activeIndex没有改变
+   */
   if (activeIndex === previousIndex) {
     if (snapIndex !== previousSnapIndex) {
       swiper.snapIndex = snapIndex;
@@ -49,7 +61,9 @@ export default function (newActiveIndex) {
     activeIndex,
   });
   swiper.emit('activeIndexChange');
-  swiper.emit('snapIndexChange');
+  if (previousSnapIndex !== snapIndex) {
+    swiper.emit('snapIndexChange');
+  }
   if (previousRealIndex !== realIndex) {
     swiper.emit('realIndexChange');
   }
