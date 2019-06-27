@@ -180,25 +180,25 @@ export default function (event) {
   if (!params.followFinger) return;
 
   // Update active index in free mode
-  if (params.freeMode || params.watchSlidesProgress || params.watchSlidesVisibility) {
-    swiper.updateActiveIndex();
-    swiper.updateSlidesClasses();
-  }
-  if (params.freeMode) {
-    // Velocity
-    if (data.velocities.length === 0) {
-      data.velocities.push({
-        position: touches[swiper.isHorizontal() ? 'startX' : 'startY'],
-        time: data.touchStartTime,
-      });
-    }
-    data.velocities.push({
-      position: touches[swiper.isHorizontal() ? 'currentX' : 'currentY'],
-      time: Utils.now(),
-    });
-  }
+  // if (params.freeMode || params.watchSlidesProgress || params.watchSlidesVisibility) {
+  //   swiper.updateActiveIndex();
+  //   swiper.updateSlidesClasses();
+  // }
+  // if (params.freeMode) {
+  //   // Velocity
+  //   if (data.velocities.length === 0) {
+  //     data.velocities.push({
+  //       position: touches[swiper.isHorizontal() ? 'startX' : 'startY'],
+  //       time: data.touchStartTime,
+  //     });
+  //   }
+  //   data.velocities.push({
+  //     position: touches[swiper.isHorizontal() ? 'currentX' : 'currentY'],
+  //     time: Utils.now(),
+  //   });
+  // }
   // Update progress
-  swiper.updateProgress(data.currentTranslate);
+  // swiper.updateProgress(data.currentTranslate);
   // Update translate
   swiper.setTranslate(data.currentTranslate);
 }

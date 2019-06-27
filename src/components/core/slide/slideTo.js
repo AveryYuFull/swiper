@@ -23,7 +23,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   const translate = -snapGrid[snapIndex];
 
   // Update progress
-  swiper.updateProgress(translate);
+  // swiper.updateProgress(translate);
 
   // Normalize slideIndex
   if (params.normalizeSlideIndex) {

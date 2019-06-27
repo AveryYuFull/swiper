@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Swiper demo</title>
   <!-- Link Swiper's CSS -->
-  <link rel="stylesheet" href="../dist/css/swiper.min.css">
+  <!-- <link rel="stylesheet" href="../dist/css/swiper.min.css"> -->
 
   <!-- Demo styles -->
   <style>
@@ -24,6 +24,36 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+    }
+    .swiper-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-transition-property: -webkit-transform;
+      transition-property: -webkit-transform;
+      -o-transition-property: transform;
+      transition-property: transform;
+      transition-property: transform, -webkit-transform;
+      -webkit-box-sizing: content-box;
+      box-sizing: content-box;
+    }
+    .swiper-slide {
+      -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      -webkit-transition-property: -webkit-transform;
+      transition-property: -webkit-transform;
+      -o-transition-property: transform;
+      transition-property: transform;
+      transition-property: transform, -webkit-transform;
     }
     .swiper-slide {
       text-align: center;
@@ -76,7 +106,9 @@
       // slidesPerColumnFill: 'column',
       // slidesPerColumn: 2,
       slidesPerView: 3,
-      normalizeSlideIndex: false
+      normalizeSlideIndex: false,
+      initialSlide: 0,
+      touchReleaseOnEdges: true
       // direction: 'vertical'
     });
   </script>

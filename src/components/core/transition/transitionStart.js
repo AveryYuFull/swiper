@@ -1,9 +1,9 @@
 export default function (runCallbacks = true, direction) {
   const swiper = this;
   const { activeIndex, params, previousIndex } = swiper;
-  if (params.autoHeight) {
-    swiper.updateAutoHeight();
-  }
+  // if (params.autoHeight) {
+  //   swiper.updateAutoHeight();
+  // }
 
   let dir = direction;
   if (!dir) {
