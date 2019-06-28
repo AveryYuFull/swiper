@@ -53,8 +53,9 @@ export default function (event) {
         startY: pageY,
         currentX: pageX,
         currentY: pageY,
+        touchStartTime: Utils.now(),
       });
-      data.touchStartTime = Utils.now();
+      // data.touchStartTime = Utils.now();
     }
     return;
   }
@@ -79,7 +80,7 @@ export default function (event) {
   if (data.isTouchEvent && document.activeElement) {
     if (e.target === document.activeElement && $(e.target).is(data.formElements)) {
       data.isMoved = true;
-      swiper.allowClick = false;
+      // swiper.allowClick = false;
       return;
     }
   }
@@ -127,7 +128,7 @@ export default function (event) {
   if (!data.startMoving) {
     return;
   }
-  swiper.allowClick = false;
+  // swiper.allowClick = false;
   e.preventDefault();
   if (params.touchMoveStopPropagation && !params.nested) {
     e.stopPropagation();
