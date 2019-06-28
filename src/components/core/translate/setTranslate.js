@@ -28,16 +28,16 @@ export default function (translate, byController) {
   swiper.translate = swiper.isHorizontal() ? x : y;
 
   // Check if we need to update progress
-  let newProgress;
-  const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
-  if (translatesDiff === 0) {
-    newProgress = 0;
-  } else {
-    newProgress = (translate - swiper.minTranslate()) / (translatesDiff);
-  }
-  if (newProgress !== progress) {
-    swiper.updateProgress(translate);
-  }
+  // let newProgress;
+  // const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
+  // if (translatesDiff === 0) {
+  //   newProgress = 0;
+  // } else {
+  //   newProgress = (translate - swiper.minTranslate()) / (translatesDiff);
+  // }
+  // if (newProgress !== progress) {
+  //   swiper.updateProgress(translate);
+  // }
 
   swiper.emit('setTranslate', swiper.translate, byController);
 }

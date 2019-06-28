@@ -12,21 +12,21 @@ export default function () {
   suffixes.push('initialized');
   suffixes.push(params.direction);
 
-  if (params.freeMode) {
-    suffixes.push('free-mode');
-  }
-  if (!Support.flexbox) {
-    suffixes.push('no-flexbox');
-  }
-  if (params.autoHeight) {
-    suffixes.push('autoheight');
-  }
-  if (rtl) {
-    suffixes.push('rtl');
-  }
-  if (params.slidesPerColumn > 1) {
-    suffixes.push('multirow');
-  }
+  // if (params.freeMode) {
+  //   suffixes.push('free-mode');
+  // }
+  // if (!Support.flexbox) {
+  //   suffixes.push('no-flexbox');
+  // }
+  // if (params.autoHeight) {
+  //   suffixes.push('autoheight');
+  // }
+  // if (rtl) {
+  //   suffixes.push('rtl');
+  // }
+  // if (params.slidesPerColumn > 1) {
+  //   suffixes.push('multirow');
+  // }
   if (Device.android) {
     suffixes.push('android');
   }
@@ -34,9 +34,9 @@ export default function () {
     suffixes.push('ios');
   }
   // WP8 Touch Events Fix
-  if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-    suffixes.push(`wp8-${params.direction}`);
-  }
+  // if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+  //   suffixes.push(`wp8-${params.direction}`);
+  // }
 
   suffixes.forEach((suffix) => {
     classNames.push(params.containerModifierClass + suffix);

@@ -41,6 +41,7 @@ export default function () {
     spaceBetween = (parseFloat(spaceBetween.replace('%', '')) / 100) * swiperSize;
   }
 
+  // 这个是不包括最右边的margin的
   swiper.virtualSize = -spaceBetween;
 
   // reset margins
@@ -67,7 +68,7 @@ export default function () {
   const slidesPerColumn = params.slidesPerColumn;
   const slidesPerRow = slidesNumberEvenToRows / slidesPerColumn;
   const numFullColumns = Math.floor(slidesLength / params.slidesPerColumn);
-  for (let i = 0; i < slidesLength; i += 1) {
+  for (let i = 0; i < slidesLength; i += 1) { // 遍历去获取每个slide的size／position
     slideSize = 0;
     const slide = slides.eq(i);
     /**
