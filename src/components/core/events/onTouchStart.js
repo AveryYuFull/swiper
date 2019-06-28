@@ -10,6 +10,13 @@ import Utils from '../../../utils/utils';
  * 4. 如果noSwiping为true，且同时通过noSwipingSelector/noSwipingClass找到了父级元素，则阻止滑动
  * 5. 如果设置了swipeHandler，则如果没有找到则直接退出
  * 6. 如果设置了edgeSwipeDetection/iOSEdgeSwipeDetection, 且如果当前的startx在edgeSwipeThreshold/iOSEdgeSwipeDetection之内，则退出
+ * 
+ * 如果是移动端就不阻止事件默认行为
+ * 阻止默认行为逻辑：
+ * 1. 如果是移动端，就不阻止事件默认行为
+ * 2. 如果不是移动端
+ *    2.1 那如果滑动事件源是指定的formElements，则不阻止事件的默认行为
+ *    2.2 如果document.activeElement, 且是formElements中的一个，而且不是当前的事件源，则blur
  */
 export default function (event) {
   const swiper = this;
@@ -55,15 +62,19 @@ export default function (event) {
     allowTouchCallbacks: true,
     isScrolling: undefined,
     startMoving: undefined,
+    touchStartTime: Utils.now()
   });
 
   touches.startX = startX;
   touches.startY = startY;
-  data.touchStartTime = Utils.now();
+  // data.touchStartTime = Utils.now();
   // swiper.allowClick = true;
   swiper.updateSize();
   swiper.swipeDirection = undefined;
   if (params.threshold > 0) data.allowThresholdMove = false;
+  /**
+   * 如果是移动端就不阻止事件默认行为
+   */
   if (e.type !== 'touchstart') {
     let preventDefault = true;
     if ($(e.target).is(data.formElements)) preventDefault = false;

@@ -24,7 +24,7 @@ export default function (event) {
   }
   if (!swiper.allowTouchMove) {
     // isMoved = true;
-    swiper.allowClick = false;
+    // swiper.allowClick = false;
     if (data.isTouched) {
       Utils.extend(touches, {
         startX: pageX,
