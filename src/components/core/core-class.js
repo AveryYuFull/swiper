@@ -158,23 +158,23 @@ class Swiper extends SwiperClass {
         return swiper.params.direction === 'vertical';
       },
       // RTL
-      rtl: (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
-      rtlTranslate: swiper.params.direction === 'horizontal' && (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
-      wrongRTL: $wrapperEl.css('display') === '-webkit-box',
+      // rtl: (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
+      // rtlTranslate: swiper.params.direction === 'horizontal' && (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
+      // wrongRTL: $wrapperEl.css('display') === '-webkit-box',
 
       // Indexes
       activeIndex: 0,
       realIndex: 0,
 
       //
-      isBeginning: true,
-      isEnd: false,
+      // isBeginning: true,
+      // isEnd: false,
 
       // Props
       translate: 0,
       previousTranslate: 0,
-      progress: 0,
-      velocity: 0,
+      // progress: 0,
+      // velocity: 0,
       animating: false,
 
       // Locks

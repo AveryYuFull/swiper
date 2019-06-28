@@ -52,7 +52,7 @@ export default function (newActiveIndex) {
   }
 
   // Get real index
-  const realIndex = parseInt(swiper.slides.eq(activeIndex).attr('data-swiper-slide-index') || activeIndex, 10);
+  // const realIndex = parseInt(swiper.slides.eq(activeIndex).attr('data-swiper-slide-index') || activeIndex, 10);
 
   Utils.extend(swiper, {
     snapIndex,

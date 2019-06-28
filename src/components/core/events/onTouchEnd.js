@@ -31,26 +31,26 @@ export default function (event) {
   const timeDiff = touchEndTime - data.touchStartTime;
 
   // Tap, doubleTap, Click
-  if (swiper.allowClick) {
-    swiper.updateClickedSlide(e);
-    swiper.emit('tap', e);
-    if (timeDiff < 300 && (touchEndTime - data.lastClickTime) > 300) {
-      if (data.clickTimeout) clearTimeout(data.clickTimeout);
-      data.clickTimeout = Utils.nextTick(() => {
-        if (!swiper || swiper.destroyed) return;
-        swiper.emit('click', e);
-      }, 300);
-    }
-    if (timeDiff < 300 && (touchEndTime - data.lastClickTime) < 300) {
-      if (data.clickTimeout) clearTimeout(data.clickTimeout);
-      swiper.emit('doubleTap', e);
-    }
-  }
+  // if (swiper.allowClick) {
+  //   swiper.updateClickedSlide(e);
+  //   swiper.emit('tap', e);
+  //   if (timeDiff < 300 && (touchEndTime - data.lastClickTime) > 300) {
+  //     if (data.clickTimeout) clearTimeout(data.clickTimeout);
+  //     data.clickTimeout = Utils.nextTick(() => {
+  //       if (!swiper || swiper.destroyed) return;
+  //       swiper.emit('click', e);
+  //     }, 300);
+  //   }
+  //   if (timeDiff < 300 && (touchEndTime - data.lastClickTime) < 300) {
+  //     if (data.clickTimeout) clearTimeout(data.clickTimeout);
+  //     swiper.emit('doubleTap', e);
+  //   }
+  // }
 
-  data.lastClickTime = Utils.now();
-  Utils.nextTick(() => {
-    if (!swiper.destroyed) swiper.allowClick = true;
-  });
+  // data.lastClickTime = Utils.now();
+  // Utils.nextTick(() => {
+  //   if (!swiper.destroyed) swiper.allowClick = true;
+  // });
 
   if (!data.isTouched || !data.isMoved || !swiper.swipeDirection || touches.diff === 0 || data.currentTranslate === data.startTranslate) {
     data.isTouched = false;
@@ -69,157 +69,157 @@ export default function (event) {
     currentPos = -data.currentTranslate;
   }
 
-  if (params.freeMode) {
-    if (currentPos < -swiper.minTranslate()) {
-      swiper.slideTo(swiper.activeIndex);
-      return;
-    }
-    if (currentPos > -swiper.maxTranslate()) {
-      if (swiper.slides.length < snapGrid.length) {
-        swiper.slideTo(snapGrid.length - 1);
-      } else {
-        swiper.slideTo(swiper.slides.length - 1);
-      }
-      return;
-    }
+  // if (params.freeMode) {
+  //   if (currentPos < -swiper.minTranslate()) {
+  //     swiper.slideTo(swiper.activeIndex);
+  //     return;
+  //   }
+  //   if (currentPos > -swiper.maxTranslate()) {
+  //     if (swiper.slides.length < snapGrid.length) {
+  //       swiper.slideTo(snapGrid.length - 1);
+  //     } else {
+  //       swiper.slideTo(swiper.slides.length - 1);
+  //     }
+  //     return;
+  //   }
 
-    if (params.freeModeMomentum) {
-      if (data.velocities.length > 1) {
-        const lastMoveEvent = data.velocities.pop();
-        const velocityEvent = data.velocities.pop();
+  //   if (params.freeModeMomentum) {
+  //     if (data.velocities.length > 1) {
+  //       const lastMoveEvent = data.velocities.pop();
+  //       const velocityEvent = data.velocities.pop();
 
-        const distance = lastMoveEvent.position - velocityEvent.position;
-        const time = lastMoveEvent.time - velocityEvent.time;
-        swiper.velocity = distance / time;
-        swiper.velocity /= 2;
-        if (Math.abs(swiper.velocity) < params.freeModeMinimumVelocity) {
-          swiper.velocity = 0;
-        }
-        // this implies that the user stopped moving a finger then released.
-        // There would be no events with distance zero, so the last event is stale.
-        if (time > 150 || (Utils.now() - lastMoveEvent.time) > 300) {
-          swiper.velocity = 0;
-        }
-      } else {
-        swiper.velocity = 0;
-      }
-      swiper.velocity *= params.freeModeMomentumVelocityRatio;
+  //       const distance = lastMoveEvent.position - velocityEvent.position;
+  //       const time = lastMoveEvent.time - velocityEvent.time;
+  //       swiper.velocity = distance / time;
+  //       swiper.velocity /= 2;
+  //       if (Math.abs(swiper.velocity) < params.freeModeMinimumVelocity) {
+  //         swiper.velocity = 0;
+  //       }
+  //       // this implies that the user stopped moving a finger then released.
+  //       // There would be no events with distance zero, so the last event is stale.
+  //       if (time > 150 || (Utils.now() - lastMoveEvent.time) > 300) {
+  //         swiper.velocity = 0;
+  //       }
+  //     } else {
+  //       swiper.velocity = 0;
+  //     }
+  //     swiper.velocity *= params.freeModeMomentumVelocityRatio;
 
-      data.velocities.length = 0;
-      let momentumDuration = 1000 * params.freeModeMomentumRatio;
-      const momentumDistance = swiper.velocity * momentumDuration;
+  //     data.velocities.length = 0;
+  //     let momentumDuration = 1000 * params.freeModeMomentumRatio;
+  //     const momentumDistance = swiper.velocity * momentumDuration;
 
-      let newPosition = swiper.translate + momentumDistance;
-      if (rtl) newPosition = -newPosition;
+  //     let newPosition = swiper.translate + momentumDistance;
+  //     if (rtl) newPosition = -newPosition;
 
-      let doBounce = false;
-      let afterBouncePosition;
-      const bounceAmount = Math.abs(swiper.velocity) * 20 * params.freeModeMomentumBounceRatio;
-      let needsLoopFix;
-      if (newPosition < swiper.maxTranslate()) {
-        if (params.freeModeMomentumBounce) {
-          if (newPosition + swiper.maxTranslate() < -bounceAmount) {
-            newPosition = swiper.maxTranslate() - bounceAmount;
-          }
-          afterBouncePosition = swiper.maxTranslate();
-          doBounce = true;
-          data.allowMomentumBounce = true;
-        } else {
-          newPosition = swiper.maxTranslate();
-        }
-        if (params.loop && params.centeredSlides) needsLoopFix = true;
-      } else if (newPosition > swiper.minTranslate()) {
-        if (params.freeModeMomentumBounce) {
-          if (newPosition - swiper.minTranslate() > bounceAmount) {
-            newPosition = swiper.minTranslate() + bounceAmount;
-          }
-          afterBouncePosition = swiper.minTranslate();
-          doBounce = true;
-          data.allowMomentumBounce = true;
-        } else {
-          newPosition = swiper.minTranslate();
-        }
-        if (params.loop && params.centeredSlides) needsLoopFix = true;
-      } else if (params.freeModeSticky) {
-        let nextSlide;
-        for (let j = 0; j < snapGrid.length; j += 1) {
-          if (snapGrid[j] > -newPosition) {
-            nextSlide = j;
-            break;
-          }
-        }
+  //     let doBounce = false;
+  //     let afterBouncePosition;
+  //     const bounceAmount = Math.abs(swiper.velocity) * 20 * params.freeModeMomentumBounceRatio;
+  //     let needsLoopFix;
+  //     if (newPosition < swiper.maxTranslate()) {
+  //       if (params.freeModeMomentumBounce) {
+  //         if (newPosition + swiper.maxTranslate() < -bounceAmount) {
+  //           newPosition = swiper.maxTranslate() - bounceAmount;
+  //         }
+  //         afterBouncePosition = swiper.maxTranslate();
+  //         doBounce = true;
+  //         data.allowMomentumBounce = true;
+  //       } else {
+  //         newPosition = swiper.maxTranslate();
+  //       }
+  //       if (params.loop && params.centeredSlides) needsLoopFix = true;
+  //     } else if (newPosition > swiper.minTranslate()) {
+  //       if (params.freeModeMomentumBounce) {
+  //         if (newPosition - swiper.minTranslate() > bounceAmount) {
+  //           newPosition = swiper.minTranslate() + bounceAmount;
+  //         }
+  //         afterBouncePosition = swiper.minTranslate();
+  //         doBounce = true;
+  //         data.allowMomentumBounce = true;
+  //       } else {
+  //         newPosition = swiper.minTranslate();
+  //       }
+  //       if (params.loop && params.centeredSlides) needsLoopFix = true;
+  //     } else if (params.freeModeSticky) {
+  //       let nextSlide;
+  //       for (let j = 0; j < snapGrid.length; j += 1) {
+  //         if (snapGrid[j] > -newPosition) {
+  //           nextSlide = j;
+  //           break;
+  //         }
+  //       }
 
-        if (Math.abs(snapGrid[nextSlide] - newPosition) < Math.abs(snapGrid[nextSlide - 1] - newPosition) || swiper.swipeDirection === 'next') {
-          newPosition = snapGrid[nextSlide];
-        } else {
-          newPosition = snapGrid[nextSlide - 1];
-        }
-        newPosition = -newPosition;
-      }
-      if (needsLoopFix) {
-        swiper.once('transitionEnd', () => {
-          swiper.loopFix();
-        });
-      }
-      // Fix duration
-      if (swiper.velocity !== 0) {
-        if (rtl) {
-          momentumDuration = Math.abs((-newPosition - swiper.translate) / swiper.velocity);
-        } else {
-          momentumDuration = Math.abs((newPosition - swiper.translate) / swiper.velocity);
-        }
-      } else if (params.freeModeSticky) {
-        swiper.slideToClosest();
-        return;
-      }
+  //       if (Math.abs(snapGrid[nextSlide] - newPosition) < Math.abs(snapGrid[nextSlide - 1] - newPosition) || swiper.swipeDirection === 'next') {
+  //         newPosition = snapGrid[nextSlide];
+  //       } else {
+  //         newPosition = snapGrid[nextSlide - 1];
+  //       }
+  //       newPosition = -newPosition;
+  //     }
+  //     if (needsLoopFix) {
+  //       swiper.once('transitionEnd', () => {
+  //         swiper.loopFix();
+  //       });
+  //     }
+  //     // Fix duration
+  //     if (swiper.velocity !== 0) {
+  //       if (rtl) {
+  //         momentumDuration = Math.abs((-newPosition - swiper.translate) / swiper.velocity);
+  //       } else {
+  //         momentumDuration = Math.abs((newPosition - swiper.translate) / swiper.velocity);
+  //       }
+  //     } else if (params.freeModeSticky) {
+  //       swiper.slideToClosest();
+  //       return;
+  //     }
 
-      if (params.freeModeMomentumBounce && doBounce) {
-        swiper.updateProgress(afterBouncePosition);
-        swiper.setTransition(momentumDuration);
-        swiper.setTranslate(newPosition);
-        swiper.transitionStart(true, swiper.swipeDirection);
-        swiper.animating = true;
-        $wrapperEl.transitionEnd(() => {
-          if (!swiper || swiper.destroyed || !data.allowMomentumBounce) return;
-          swiper.emit('momentumBounce');
+  //     if (params.freeModeMomentumBounce && doBounce) {
+  //       swiper.updateProgress(afterBouncePosition);
+  //       swiper.setTransition(momentumDuration);
+  //       swiper.setTranslate(newPosition);
+  //       swiper.transitionStart(true, swiper.swipeDirection);
+  //       swiper.animating = true;
+  //       $wrapperEl.transitionEnd(() => {
+  //         if (!swiper || swiper.destroyed || !data.allowMomentumBounce) return;
+  //         swiper.emit('momentumBounce');
 
-          swiper.setTransition(params.speed);
-          swiper.setTranslate(afterBouncePosition);
-          $wrapperEl.transitionEnd(() => {
-            if (!swiper || swiper.destroyed) return;
-            swiper.transitionEnd();
-          });
-        });
-      } else if (swiper.velocity) {
-        swiper.updateProgress(newPosition);
-        swiper.setTransition(momentumDuration);
-        swiper.setTranslate(newPosition);
-        swiper.transitionStart(true, swiper.swipeDirection);
-        if (!swiper.animating) {
-          swiper.animating = true;
-          $wrapperEl.transitionEnd(() => {
-            if (!swiper || swiper.destroyed) return;
-            swiper.transitionEnd();
-          });
-        }
-      } else {
-        swiper.updateProgress(newPosition);
-      }
+  //         swiper.setTransition(params.speed);
+  //         swiper.setTranslate(afterBouncePosition);
+  //         $wrapperEl.transitionEnd(() => {
+  //           if (!swiper || swiper.destroyed) return;
+  //           swiper.transitionEnd();
+  //         });
+  //       });
+  //     } else if (swiper.velocity) {
+  //       swiper.updateProgress(newPosition);
+  //       swiper.setTransition(momentumDuration);
+  //       swiper.setTranslate(newPosition);
+  //       swiper.transitionStart(true, swiper.swipeDirection);
+  //       if (!swiper.animating) {
+  //         swiper.animating = true;
+  //         $wrapperEl.transitionEnd(() => {
+  //           if (!swiper || swiper.destroyed) return;
+  //           swiper.transitionEnd();
+  //         });
+  //       }
+  //     } else {
+  //       swiper.updateProgress(newPosition);
+  //     }
 
-      swiper.updateActiveIndex();
-      swiper.updateSlidesClasses();
-    } else if (params.freeModeSticky) {
-      swiper.slideToClosest();
-      return;
-    }
+  //     swiper.updateActiveIndex();
+  //     swiper.updateSlidesClasses();
+  //   } else if (params.freeModeSticky) {
+  //     swiper.slideToClosest();
+  //     return;
+  //   }
 
-    if (!params.freeModeMomentum || timeDiff >= params.longSwipesMs) {
-      swiper.updateProgress();
-      swiper.updateActiveIndex();
-      swiper.updateSlidesClasses();
-    }
-    return;
-  }
+  //   if (!params.freeModeMomentum || timeDiff >= params.longSwipesMs) {
+  //     swiper.updateProgress();
+  //     swiper.updateActiveIndex();
+  //     swiper.updateSlidesClasses();
+  //   }
+  //   return;
+  // }
 
   // Find current slide
   let stopIndex = 0;
