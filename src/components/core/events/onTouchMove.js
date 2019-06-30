@@ -52,10 +52,9 @@ export default function (event) {
         startX: pageX,
         startY: pageY,
         currentX: pageX,
-        currentY: pageY,
-        touchStartTime: Utils.now(),
+        currentY: pageY
       });
-      // data.touchStartTime = Utils.now();
+      data.touchStartTime = Utils.now();
     }
     return;
   }
@@ -143,7 +142,7 @@ export default function (event) {
     if (swiper.animating) {
       swiper.$wrapperEl.trigger('webkitTransitionEnd transitionend');
     }
-    data.allowMomentumBounce = false;
+    // data.allowMomentumBounce = false;
     // Grab Cursor
     if (params.grabCursor && (swiper.allowSlideNext === true || swiper.allowSlidePrev === true)) {
       swiper.setGrabCursor(true);
@@ -162,22 +161,22 @@ export default function (event) {
   swiper.swipeDirection = diff > 0 ? 'prev' : 'next';
   data.currentTranslate = diff + data.startTranslate;
 
-  let disableParentSwiper = true;
+  // let disableParentSwiper = true;
   let resistanceRatio = params.resistanceRatio;
   if (params.touchReleaseOnEdges) {
     resistanceRatio = 0;
   }
   if ((diff > 0 && data.currentTranslate > swiper.minTranslate())) {
-    disableParentSwiper = false;
+    // disableParentSwiper = false;
     if (params.resistance) data.currentTranslate = (swiper.minTranslate() - 1) + ((-swiper.minTranslate() + data.startTranslate + diff) ** resistanceRatio);
   } else if (diff < 0 && data.currentTranslate < swiper.maxTranslate()) {
-    disableParentSwiper = false;
+    // disableParentSwiper = false;
     if (params.resistance) data.currentTranslate = (swiper.maxTranslate() + 1) - ((swiper.maxTranslate() - data.startTranslate - diff) ** resistanceRatio);
   }
 
-  if (disableParentSwiper) {
-    e.preventedByNestedSwiper = true;
-  }
+  // if (disableParentSwiper) {
+  //   e.preventedByNestedSwiper = true;
+  // }
 
   // Directions locks
   if (!swiper.allowSlideNext && swiper.swipeDirection === 'next' && data.currentTranslate < data.startTranslate) {
@@ -189,21 +188,21 @@ export default function (event) {
 
 
   // Threshold
-  if (params.threshold > 0) {
-    if (Math.abs(diff) > params.threshold || data.allowThresholdMove) {
-      if (!data.allowThresholdMove) {
-        data.allowThresholdMove = true;
-        touches.startX = touches.currentX;
-        touches.startY = touches.currentY;
-        data.currentTranslate = data.startTranslate;
-        touches.diff = swiper.isHorizontal() ? touches.currentX - touches.startX : touches.currentY - touches.startY;
-        return;
-      }
-    } else {
-      data.currentTranslate = data.startTranslate;
-      return;
-    }
-  }
+  // if (params.threshold > 0) {
+  //   if (Math.abs(diff) > params.threshold || data.allowThresholdMove) {
+  //     if (!data.allowThresholdMove) {
+  //       data.allowThresholdMove = true;
+  //       touches.startX = touches.currentX;
+  //       touches.startY = touches.currentY;
+  //       data.currentTranslate = data.startTranslate;
+  //       touches.diff = swiper.isHorizontal() ? touches.currentX - touches.startX : touches.currentY - touches.startY;
+  //       return;
+  //     }
+  //   } else {
+  //     data.currentTranslate = data.startTranslate;
+  //     return;
+  //   }
+  // }
 
   if (!params.followFinger) return;
 

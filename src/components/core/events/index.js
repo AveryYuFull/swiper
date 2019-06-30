@@ -20,7 +20,7 @@ function attachEvents() {
     swiper.onTouchEnd = onTouchEnd.bind(swiper);
   }
 
-  swiper.onClick = onClick.bind(swiper);
+  // swiper.onClick = onClick.bind(swiper);
 
   const target = params.touchEventsTarget === 'container' ? el : wrapperEl;
   const capture = !!params.nested;
@@ -45,15 +45,15 @@ function attachEvents() {
       }
     }
     // Prevent Links Clicks
-    if (params.preventClicks || params.preventClicksPropagation) {
-      target.addEventListener('click', swiper.onClick, true);
-    }
+    // if (params.preventClicks || params.preventClicksPropagation) {
+    //   target.addEventListener('click', swiper.onClick, true);
+    // }
   } else {
-    target.addEventListener('click', swiper.onClick, false);
+    // target.addEventListener('click', swiper.onClick, false);
   }
 
   // Resize handler
-  swiper.on((Device.ios || Device.android ? 'resize orientationchange observerUpdate' : 'resize observerUpdate'), onResize, true);
+  // swiper.on((Device.ios || Device.android ? 'resize orientationchange observerUpdate' : 'resize observerUpdate'), onResize, true);
 }
 
 function detachEvents() {

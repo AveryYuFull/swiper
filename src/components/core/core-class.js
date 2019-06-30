@@ -203,24 +203,24 @@ class Swiper extends SwiperClass {
         return Support.touch || !swiper.params.simulateTouch ? swiper.touchEventsTouch : swiper.touchEventsDesktop;
       }()),
       touchEventsData: {
-        isTouched: undefined,
-        isMoved: undefined,
+        isTouchEvent: undefined,
         allowTouchCallbacks: undefined,
+        isTouched: undefined,
         touchStartTime: undefined,
+        isMoved: undefined,
         isScrolling: undefined,
-        currentTranslate: undefined,
+        startMoving: undefined,
         startTranslate: undefined,
+        currentTranslate: undefined,
         allowThresholdMove: undefined,
         // Form elements to match
         formElements: 'input, select, option, textarea, button, video',
         // Last click time
-        lastClickTime: Utils.now(),
-        clickTimeout: undefined,
+        // lastClickTime: Utils.now(),
+        // clickTimeout: undefined,
         // Velocities
-        velocities: [],
-        allowMomentumBounce: undefined,
-        isTouchEvent: undefined,
-        startMoving: undefined,
+        // velocities: [],
+        // allowMomentumBounce: undefined,
       },
 
       // Clicks
