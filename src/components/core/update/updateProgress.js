@@ -2,7 +2,7 @@ import Utils from '../../../utils/utils';
 
 export default function (translate = (this && this.translate) || 0) {
   const swiper = this;
-  const params = swiper.params;
+  // const params = swiper.params;
 
   const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
   let { progress, isBeginning, isEnd } = swiper;
@@ -23,7 +23,7 @@ export default function (translate = (this && this.translate) || 0) {
     isEnd,
   });
 
-  if (params.watchSlidesProgress || params.watchSlidesVisibility) swiper.updateSlidesProgress(translate);
+  // if (params.watchSlidesProgress || params.watchSlidesVisibility) swiper.updateSlidesProgress(translate);
 
   if (isBeginning && !wasBeginning) {
     swiper.emit('reachBeginning toEdge');

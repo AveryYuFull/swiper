@@ -16,7 +16,7 @@ const Navigation = {
       } else {
         $prevEl.removeClass(params.disabledClass);
       }
-      $prevEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
+      // $prevEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
     }
     if ($nextEl && $nextEl.length > 0) {
       if (swiper.isEnd) {
@@ -24,7 +24,7 @@ const Navigation = {
       } else {
         $nextEl.removeClass(params.disabledClass);
       }
-      $nextEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
+      // $nextEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
     }
   },
   onPrevClick(e) {
@@ -104,10 +104,10 @@ export default {
       nextEl: null,
       prevEl: null,
 
-      hideOnClick: false,
+      // hideOnClick: false,
       disabledClass: 'swiper-button-disabled',
-      hiddenClass: 'swiper-button-hidden',
-      lockClass: 'swiper-button-lock',
+      // hiddenClass: 'swiper-button-hidden',
+      // lockClass: 'swiper-button-lock',
     },
   },
   create() {
@@ -140,32 +140,32 @@ export default {
       const swiper = this;
       swiper.navigation.destroy();
     },
-    click(e) {
-      const swiper = this;
-      const { $nextEl, $prevEl } = swiper.navigation;
-      if (
-        swiper.params.navigation.hideOnClick
-        && !$(e.target).is($prevEl)
-        && !$(e.target).is($nextEl)
-      ) {
-        let isHidden;
-        if ($nextEl) {
-          isHidden = $nextEl.hasClass(swiper.params.navigation.hiddenClass);
-        } else if ($prevEl) {
-          isHidden = $prevEl.hasClass(swiper.params.navigation.hiddenClass);
-        }
-        if (isHidden === true) {
-          swiper.emit('navigationShow', swiper);
-        } else {
-          swiper.emit('navigationHide', swiper);
-        }
-        if ($nextEl) {
-          $nextEl.toggleClass(swiper.params.navigation.hiddenClass);
-        }
-        if ($prevEl) {
-          $prevEl.toggleClass(swiper.params.navigation.hiddenClass);
-        }
-      }
-    },
+    // click(e) {
+    //   const swiper = this;
+    //   const { $nextEl, $prevEl } = swiper.navigation;
+    //   if (
+    //     swiper.params.navigation.hideOnClick
+    //     && !$(e.target).is($prevEl)
+    //     && !$(e.target).is($nextEl)
+    //   ) {
+    //     let isHidden;
+    //     if ($nextEl) {
+    //       isHidden = $nextEl.hasClass(swiper.params.navigation.hiddenClass);
+    //     } else if ($prevEl) {
+    //       isHidden = $prevEl.hasClass(swiper.params.navigation.hiddenClass);
+    //     }
+    //     if (isHidden === true) {
+    //       swiper.emit('navigationShow', swiper);
+    //     } else {
+    //       swiper.emit('navigationHide', swiper);
+    //     }
+    //     if ($nextEl) {
+    //       $nextEl.toggleClass(swiper.params.navigation.hiddenClass);
+    //     }
+    //     if ($prevEl) {
+    //       $prevEl.toggleClass(swiper.params.navigation.hiddenClass);
+    //     }
+    //   }
+    // },
   },
 };
