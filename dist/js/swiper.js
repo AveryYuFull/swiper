@@ -2077,6 +2077,7 @@
         swiper.animating = true;
         if (!swiper.onSlideToWrapperTransitionEnd) {
           swiper.onSlideToWrapperTransitionEnd = function transitionEnd(e) {
+            console.log('transitionEnd');
             if (!swiper || swiper.destroyed) { return; }
             if (e.target !== this) { return; }
             swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
